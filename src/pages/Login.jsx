@@ -1,28 +1,56 @@
+import { useContext, useState } from "react";
+import { AuthContext } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
 function Login() {
+  const { login } = useContext(AuthContext);
   const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+
+  const handleLogin = () => {
+    login(email);
+
+    if (email === "admin@gmail.com") {
+      navigate("/admin");
+    } else {
+      navigate("/user");
+    }
+  };
 
   return (
-    <div className="h-screen flex items-center justify-center bg-gradient-to-r from-indigo-500 to-blue-600">
-      <div className="bg-white p-10 rounded-2xl shadow-2xl w-96">
-        <h2 className="text-2xl font-bold text-center mb-6">
-          Certification Tracker
-        </h2>
+    <div className="h-screen flex items-center justify-center bg-gray-100">
+      <div className="bg-white p-8 rounded shadow w-96">
+        <h2 className="text-xl font-bold mb-4">Login</h2>
+
+        <input
+          type="email"
+          placeholder="Email"
+          className="w-full border p-2 mb-3"
+          onChange={(e) => setEmail(e.target.value)}
+        />
+
+        <input
+          type="password"
+          placeholder="Password"
+          className="w-full border p-2 mb-3"
+        />
 
         <button
-          onClick={() => navigate("/admin")}
-          className="w-full bg-indigo-600 text-white py-3 rounded-lg mb-4 hover:bg-indigo-700 transition"
+          onClick={handleLogin}
+          className="w-full bg-indigo-600 text-white p-2 rounded"
         >
-          Login as Admin
+          Login
         </button>
 
-        <button
-          onClick={() => navigate("/user")}
-          className="w-full bg-green-600 text-white py-3 rounded-lg hover:bg-green-700 transition"
-        >
-          Login as User
-        </button>
+        <p className="text-sm mt-4 text-center">
+  Don't have an account?{" "}
+  <span
+    onClick={() => navigate("/signup")}
+    className="text-blue-600 cursor-pointer font-semibold"
+  >
+    Sign Up
+  </span>
+</p>
       </div>
     </div>
   );
